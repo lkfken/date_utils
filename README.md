@@ -22,7 +22,12 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+method: month_end
+
+example:
+```ruby
+Date.civil(2017, 9, 15).month_end #2017-09-30
+```
 
 ## Development
 
@@ -32,5 +37,5 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/date_utils.
+Bug reports and pull requests are welcome on GitHub at https://github.com/lkfken/date_utils.
 
