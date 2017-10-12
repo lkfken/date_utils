@@ -1,11 +1,13 @@
 require "spec_helper"
+require 'date'
+class Date
+  include DateUtils
+end
 
 describe DateUtils do
-  it "has a version number" do
-    expect(DateUtils::VERSION).not_to be nil
-  end
-
-  it "does something useful" do
-    expect(false).to eq(true)
+  it '#month_end' do
+    date = Date.today
+    date = Date.civil(date.year, date.month, -1)
+    expect(Date.today.month_end).to eq(date)
   end
 end

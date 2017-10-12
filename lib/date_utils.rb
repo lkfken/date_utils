@@ -17,6 +17,10 @@ module DateUtils
     time
   end
 
+  def month_end
+    Date.civil(self.year, self.month, -1)
+  end
+
   def crontab_string
     time = self
     [time.min, time.hour, time.mday, time.month, time.wday].join(' ')
