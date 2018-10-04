@@ -21,20 +21,30 @@ module DateUtils
     Date.civil(self.year, self.month, -1)
   end
 
+  def month_begin
+    Date.civil(self.year, self.month, 1)
+  end
+
   def next_monday(n = 0)
     raise ArgumentError, "Cannot be less than zero" if n < 0
-    advance = 7 * n
-    start_date = self.next_day(advance)
-    date = start_date += 1 until start_date.wday == 1
-    date
+    start_date = self.dup
+    if n > 0
+      advance = 7 * n
+      start_date = start_date.next_day(advance)
+    end
+    start_date += 1 until start_date.wday == 1
+    start_date
   end
 
   def prev_monday(n = 0)
     raise ArgumentError, "Cannot be less than zero" if n < 0
-    advance = 7 * n
-    start_date = self.prev_day(advance)
-    date = start_date -= 1 until start_date.wday == 1
-    date
+    start_date = self.dup
+    if n > 0
+      advance = 7 * n
+      start_date = start_date.prev_day(advance)
+    end
+    start_date += 1 until start_date.wday == 1
+    start_date
   end
 
   def crontab_string
