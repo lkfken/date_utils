@@ -52,8 +52,7 @@ module DateUtils
     [time.min, time.hour, time.mday, time.month, time.wday].join(' ')
   end
     
-  def to_str(format = nil)
-    format = format.nil? ? :us : format
+  def to_str(format = :us)
     case format
     when :us
       self.strftime('%m/%d/%Y')
