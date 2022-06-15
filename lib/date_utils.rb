@@ -52,7 +52,7 @@ module DateUtils
     [time.min, time.hour, time.mday, time.month, time.wday].join(' ')
   end
     
-  def to_str(format: nil)
+  def to_str(format = nil)
     format = format.nil? ? :us : format
     case format
     when :us
