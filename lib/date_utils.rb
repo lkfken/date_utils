@@ -52,12 +52,13 @@ module DateUtils
     [time.min, time.hour, time.mday, time.month, time.wday].join(' ')
   end
     
-  def to_str(format: :us)
+  def to_str(format: nil)
+    format = format.nil? ? :us : format
     case format
     when :us
       self.strftime('%m/%d/%Y')
     else
-      self.to_s
+      raise "Unknown format #{format}"
     end
   end
 end
