@@ -57,6 +57,8 @@ module DateUtils
     case format
     when :us
       self.strftime('%m/%d/%Y')
+    when :ymd
+      self.strftime('%Y%m%d')
     else
       raise "Unknown format #{format}"
     end
