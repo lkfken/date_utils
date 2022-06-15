@@ -51,4 +51,13 @@ module DateUtils
     time = self
     [time.min, time.hour, time.mday, time.month, time.wday].join(' ')
   end
+    
+  def to_str(format: :us)
+    case format
+    when :us
+      self.strftime('%m/%d/%Y')
+    else
+      self.to_s
+    end
+  end
 end
