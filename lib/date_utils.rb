@@ -51,4 +51,15 @@ module DateUtils
     time = self
     [time.min, time.hour, time.mday, time.month, time.wday].join(' ')
   end
+    
+  def to_str(format = :ymd)
+    case format
+    when :us
+      self.strftime('%m/%d/%Y')
+    when :ymd
+      self.strftime('%Y%m%d')
+    else
+      raise "Unknown format #{format}"
+    end
+  end
 end
