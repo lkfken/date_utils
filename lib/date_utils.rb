@@ -25,6 +25,14 @@ module DateUtils
     Date.civil(self.year, self.month, 1)
   end
 
+  def year_begin
+    Date.civil(self.year, 1, 1)
+  end
+
+  def year_end
+    self.year_begin.next_year.prev_day
+  end
+
   def next_monday(n = 0)
     raise ArgumentError, "Cannot be less than zero" if n < 0
     start_date = self.dup
@@ -36,7 +44,29 @@ module DateUtils
     start_date
   end
 
-  def prev_monday(n = 0)
+  def prev_weekday(n=1)
+    return next_weekday(-n) if n < 0
+    start_date = dup.next_day
+
+    (0..n).each do |n|
+      start_date -= 1
+      start_date -= 1 while [0, 6].include?(start_date.wday)
+    end
+    start_date
+  end
+
+  def next_weekday(n=1)
+    return prev_weekday(-n) if n < 0
+    start_date = dup.prev_day
+
+    (0..n).each do |n|
+      start_date += 1
+      start_date += 1 while [0, 6].include?(start_date.wday)
+    end
+    start_date
+  end
+
+  def prev_monday(n = 1)
     raise ArgumentError, "Cannot be less than zero" if n < 0
     start_date = self.dup
     if n > 0
