@@ -1,41 +1,47 @@
-require "date_utils/version"
+# frozen_string_literal: true
 
+require 'date_utils/version'
+
+# no comment
 module DateUtils
+  def months_in_between(date1, date2)
+    (date2.year - date1.year) * 12 + date2.month - date1.month - (date2.day >= date1.day ? 0 : 1)
+  end
+
   def day_in_sec
     24 * 60 * 60
   end
 
-  def beginning_of_the_week(year:, month:, day: 1, hour: 8, min: 0, sec: 0, wday:, timezone: '-08:00')
+  def beginning_of_the_week(year:, month:, wday:, day: 1, hour: 8, min: 0, sec: 0, timezone: '-08:00')
     time = Time.new(year, month, day, hour, min, sec, timezone)
-    time = time - (time.wday - wday) * day_in_sec # Sunday is 0
+    time -= (time.wday - wday) * day_in_sec # Sunday is 0
 
     # if the date is falling into the previous month, add 7 days to it.
-    until time.year == year && time.month == month
-      time += 7 * day_in_sec
-    end
+    time += 7 * day_in_sec until time.year == year && time.month == month
 
     time
   end
 
   def month_end
-    Date.civil(self.year, self.month, -1)
+    Date.civil(year, month, -1)
   end
 
   def month_begin
-    Date.civil(self.year, self.month, 1)
+    Date.civil(year, month, 1)
   end
 
   def year_begin
-    Date.civil(self.year, 1, 1)
+    Date.civil(year, 1, 1)
   end
 
   def year_end
-    self.year_begin.next_year.prev_day
+    year_begin.next_year.prev_day
   end
 
   def next_monday(n = 0)
-    raise ArgumentError, "Cannot be less than zero" if n < 0
-    start_date = self.dup
+    raise ArgumentError, 'Cannot be less than zero' if n < 0
+
+    start_date = dup
     if n > 0
       advance = 7 * n
       start_date = start_date.next_day(advance)
@@ -44,22 +50,24 @@ module DateUtils
     start_date
   end
 
-  def prev_weekday(n=1)
+  def prev_weekday(n = 1)
     return next_weekday(-n) if n < 0
+
     start_date = dup.next_day
 
-    (0..n).each do |n|
+    (0..n).each do |_n|
       start_date -= 1
       start_date -= 1 while [0, 6].include?(start_date.wday)
     end
     start_date
   end
 
-  def next_weekday(n=1)
+  def next_weekday(n = 1)
     return prev_weekday(-n) if n < 0
+
     start_date = dup.prev_day
 
-    (0..n).each do |n|
+    (0..n).each do |_n|
       start_date += 1
       start_date += 1 while [0, 6].include?(start_date.wday)
     end
@@ -67,8 +75,9 @@ module DateUtils
   end
 
   def prev_monday(n = 1)
-    raise ArgumentError, "Cannot be less than zero" if n < 0
-    start_date = self.dup
+    raise ArgumentError, 'Cannot be less than zero' if n < 0
+
+    start_date = dup
     if n > 0
       advance = 7 * n
       start_date = start_date.prev_day(advance)
@@ -81,13 +90,13 @@ module DateUtils
     time = self
     [time.min, time.hour, time.mday, time.month, time.wday].join(' ')
   end
-    
+
   def to_str(format = :ymd)
     case format
     when :us
-      self.strftime('%m/%d/%Y')
+      strftime('%m/%d/%Y')
     when :ymd
-      self.strftime('%Y%m%d')
+      strftime('%Y%m%d')
     else
       raise "Unknown format #{format}"
     end
