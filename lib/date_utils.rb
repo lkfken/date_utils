@@ -39,7 +39,7 @@ module DateUtils
   end
 
   def next_monday(n = 0)
-    raise ArgumentError, 'Cannot be less than zero' if n < 0
+    raise ArgumentError, 'Cannot be less than zero' if n.negative?
 
     start_date = dup
     if n > 0
@@ -51,7 +51,7 @@ module DateUtils
   end
 
   def prev_weekday(n = 1)
-    return next_weekday(-n) if n < 0
+    return next_weekday(-n) if n.negative?
 
     start_date = dup.next_day
 
@@ -63,7 +63,7 @@ module DateUtils
   end
 
   def next_weekday(n = 1)
-    return prev_weekday(-n) if n < 0
+    return prev_weekday(-n) if n.negative?
 
     start_date = dup.prev_day
 
@@ -75,10 +75,10 @@ module DateUtils
   end
 
   def prev_monday(n = 1)
-    raise ArgumentError, 'Cannot be less than zero' if n < 0
+    raise ArgumentError, 'Cannot be less than zero' if n.negative?
 
     start_date = dup
-    if n > 0
+    if n.positive?
       advance = 7 * n
       start_date = start_date.prev_day(advance)
     end
