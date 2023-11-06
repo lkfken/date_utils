@@ -88,8 +88,8 @@ module DateUtils
 
   def within?(date_range)
     # Extract the month and day from both the given date and the date range.
-    given_month = date.month
-    given_day = date.day
+    given_month = month
+    given_day = day
     range_begin_month = date_range.begin.month
     range_begin_day = date_range.begin.day
     range_end_month = date_range.end.month
