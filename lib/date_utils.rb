@@ -86,21 +86,9 @@ module DateUtils
     start_date
   end
 
+  # convert all to Julian day number and see if the date (in JD) is within the range (in JD)
   def within?(date_range)
-    # Extract the month and day from both the given date and the date range.
-    given_month = month
-    given_day = day
-    range_begin_month = date_range.begin.month
-    range_begin_day = date_range.begin.day
-    range_end_month = date_range.end.month
-    range_end_day = date_range.end.day
-
-    # Check if the given date's month and day are within the date range's month and day range, handling the year-end edge case.
-    if range_begin_month > range_end_month
-      (range_begin_month..12).include?(given_month) || (1..range_end_month).include?(given_month)
-    else
-      (range_begin_month..range_end_month).include?(given_month)
-    end && (range_begin_day..range_end_day).include?(given_day)
+    (date_range.begin.jd..date_range.end.jd).include?(self.jd)
   end
 
   def crontab_string
