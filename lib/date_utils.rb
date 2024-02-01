@@ -86,6 +86,25 @@ module DateUtils
     start_date
   end
 
+  # return start date if start date is Friday
+  def next_friday(n = 0)
+    next_wday(n, wday: 5)
+  end
+
+  def next_wday(n=0,wday:)
+    raise ArgumentError, 'Cannot be less than zero' if n.negative?
+    start_date = dup
+    return start_date if start_date.wday == wday
+
+    if n.positive?
+      advance = 7 * n
+      start_date = start_date.next_day(advance)
+    end
+
+    start_date += 1 until start_date.wday == wday
+    start_date
+  end
+
   # convert all to Julian day number and see if the date (in JD) is within the range (in JD)
   def within?(date_range)
     (date_range.begin.jd..date_range.end.jd).include?(self.jd)
