@@ -91,18 +91,18 @@ module DateUtils
     next_wday(n, wday: 5)
   end
 
-  def next_wday(n=0,wday:)
-    raise ArgumentError, 'Cannot be less than zero' if n.negative?
+  def next_wday(n=0, wday:)
+    # raise ArgumentError, 'Cannot be less than zero' if n.negative?
     start_date = dup
     return start_date if start_date.wday == wday
 
-    if n.positive?
-      advance = 7 * n
-      start_date = start_date.next_day(advance)
+    days_until_wday = if wday >= start_date.wday
+      wday - start_date.wday
+    else
+      7 + (wday - start_date.wday)
     end
-
-    start_date += 1 until start_date.wday == wday
-    start_date
+    
+      start_date.next_day(days_until_wday).next_day(7 * n)
   end
 
   # convert all to Julian day number and see if the date (in JD) is within the range (in JD)
